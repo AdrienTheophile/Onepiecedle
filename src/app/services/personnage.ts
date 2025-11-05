@@ -1,0 +1,20 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { PersonnageModel } from '../models/personnage.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class Personnage {
+
+  constructor(private http: HttpClient) {}
+
+  private readonly path = 'assets/data/personnages.json' //depuis la racine de l'app
+
+  public getPersonnages(): Observable<PersonnageModel[]> {
+    return this.http.get<PersonnageModel[]>(this.path)
+  }
+
+}

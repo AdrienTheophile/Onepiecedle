@@ -1,0 +1,61 @@
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+input {
+  margin-top: 1%;
+  margin-bottom: 2%;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 20px;
+  border-radius: 15px;
+}
+
+ul {
+  margin-top: -1%;
+  margin-right: 2.5%;
+  text-align: center;
+  list-style-type: none;
+}
+
+.mes-win {
+  text-align: center;
+  margin: 20px;
+}
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 2px solid
+}
+
+th, td {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.correct {
+  background-color: rgb(144, 238, 144);
+}
+
+.incorrect, .higher, .lower {
+  background-color: rgb(227, 66, 52);
+}
+
+.partial {
+  background-color: rgb(255, 253, 141);
+}
+
+.higher::before {
+  content: "\25B2";
+  font-size: 1rem;
+  margin-right: 4px;
+}
+
+.lower::before {
+  content: "\25BC";
+  font-size: 1rem;
+  margin-right: 4px;
+}
