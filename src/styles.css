@@ -1,4 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Part de la racine du site*/
+  background-image: url('/assets/images/gotonewworld.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
 }

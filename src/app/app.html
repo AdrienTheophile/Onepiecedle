@@ -1,8 +1,14 @@
 <h1>One Piece DLE 2.0</h1>
 
-<input class="search-bar" type="text" [formControl]="searchInput" placeholder="Cherche un personnage...">
+<div class="recherche-global">
+  <input class="search-bar" type="text" [formControl]="searchInput" placeholder="Cherche un personnage...">
 
-<ul *ngFor="let p of personnagesAffiches" class="ligne-perso"><li (click)="selectionnerPersonnage(p)">{{p.nom}}</li></ul>
+  <ul class="liste-resultats" *ngIf="personnagesAffiches.length > 0">
+      <li *ngFor="let p of personnagesAffiches" (click)="selectionnerPersonnage(p)" class="perso-item">
+          <span class="nom-perso">{{ p.nom }}</span>
+      </li>
+  </ul>
+</div>
 
 <div class="mes-win" *ngIf="partieGagnee"><h3>Félicitations ! Tu as trouvé le personnage !</h3></div>
 
@@ -53,3 +59,5 @@
   </tbody>
 
 </table>
+
+
