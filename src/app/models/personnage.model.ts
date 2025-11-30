@@ -9,4 +9,5 @@ export interface PersonnageModel {
   hauteur: number;
   origine: string;
   premierArc: string;
+  image: string;
 }

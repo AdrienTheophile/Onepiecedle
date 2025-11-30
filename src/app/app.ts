@@ -16,9 +16,9 @@ import { ORDRE_ARCS } from './constants';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-
 export class App implements OnInit {
   protected readonly title = signal('onepiecedle');
+  readonly urlImages = 'https://onepiecedle-api.onrender.com/images/';
 
   constructor(private personnageService: Personnage) {}
 
@@ -61,7 +61,7 @@ export class App implements OnInit {
     };
     this.tentatives.unshift(resTenter);
 
-    if ( personnageChoisi.id === this.solution?.id ) {
+    if (personnageChoisi.id === this.solution?.id) {
       this.partieGagnee = true;
       this.searchInput.disable();
     }

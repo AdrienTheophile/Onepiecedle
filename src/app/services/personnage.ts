@@ -4,17 +4,15 @@ import { Observable } from 'rxjs';
 import { PersonnageModel } from '../models/personnage.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 
 export class Personnage {
-
   constructor(private http: HttpClient) {}
 
-  private readonly path = 'assets/data/personnages.json' //depuis la racine de l'app
+  private readonly path = 'https://onepiecedle-api.onrender.com/api/personnages'
 
   public getPersonnages(): Observable<PersonnageModel[]> {
-    return this.http.get<PersonnageModel[]>(this.path)
+    return this.http.get<PersonnageModel[]>(this.path);
   }
-
 }

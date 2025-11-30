@@ -1,10 +1,11 @@
-<img src="/assets/images/title.png" alt="Title OnePIeceDle2.0" class="img-title">
+<img src="./assets/images/title.png" alt="Title OnePIeceDle2.0" class="img-title">
 
 <div class="recherche-global">
   <input class="search-bar" type="text" [formControl]="searchInput" placeholder="Cherche un personnage...">
 
   <ul class="liste-resultats" *ngIf="personnagesAffiches.length > 0">
       <li *ngFor="let p of personnagesAffiches" (click)="selectionnerPersonnage(p)" class="perso-item">
+          <img [src]="urlImages + p.image" class="avatar-search-bar"/>
           <span class="nom-perso">{{ p.nom }}</span>
       </li>
   </ul>
@@ -16,7 +17,7 @@
 
   <thead>
     <tr>
-      <th>Nom</th>
+      <th>Perso</th>
       <th>Genre</th>
       <th>Affiliation</th>
       <th>Fruit Du Demon</th>
@@ -30,7 +31,9 @@
 
   <tbody>
     <tr *ngFor="let t of tentatives" class="ligne-perso">
-      <td>{{t.personnage.nom}}</td>
+      <td>
+        <img [src]="urlImages + t.personnage.image"[alt]="t.personnage.nom" class="avatar"/>
+      </td>
       <td [class.correct]="t.comparaison.genre === 'correct'" [class.incorrect]="t.comparaison.genre === 'incorrect'">
         {{t.personnage.genre}}
       </td>
