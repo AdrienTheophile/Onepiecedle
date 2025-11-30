@@ -50,6 +50,17 @@ Pour lancer le projet localement sur votre machine :
 ### Étapes
 
 1. **Cloner le dépôt :**
+   
    ```bash
    git clone [https://github.com/AdrienTheophile/Onepiecedle.git](https://github.com/AdrienTheophile/Onepiecedle.git)
-   cd Onepiecedle
+   cd Onepiecedle 
+
+2. **Installer les dépendances :**
+   
+   ```bash
+   npm install
+
+3. **Lancer le serveur :**
+   
+   ```bash
+   ng serve --open
