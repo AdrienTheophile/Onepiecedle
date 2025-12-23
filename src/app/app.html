@@ -1,66 +1,81 @@
 <img src="./assets/images/title.png" alt="Title OnePIeceDle2.0" class="img-title">
 
-<div class="recherche-global">
-  <input class="search-bar" type="text" [formControl]="searchInput" placeholder="Cherche un personnage...">
-
-  <ul class="liste-resultats" *ngIf="personnagesAffiches.length > 0">
-      <li *ngFor="let p of personnagesAffiches" (click)="selectionnerPersonnage(p)" class="perso-item">
-          <img [src]="urlImages + p.image" class="avatar-search-bar"/>
-          <span class="nom-perso">{{ p.nom }}</span>
-      </li>
-  </ul>
+<div class="d-flex justify-content-center loading-bar" *ngIf="isLoading">
+  <div class="spinner-grow text-primary" role="status"></div>
+  <div class="spinner-grow text-secondary" role="status"></div>
+  <div class="spinner-grow text-success" role="status"></div>
+  <div class="spinner-grow text-danger" role="status"></div>
+  <div class="spinner-grow text-warning" role="status"></div>
+  <div class="spinner-grow text-info" role="status"></div>
+  <div class="spinner-grow text-light" role="status"></div>
+  <div class="spinner-grow text-dark" role="status"></div>
+  <br>
+  <h4 class="text-light fw-bold">{{ loadingMessage }}</h4>
 </div>
 
-<div class="mes-win" *ngIf="partieGagnee"><h3>Félicitations ! Tu as trouvé le personnage !</h3></div>
+<div *ngIf="!isLoading">
 
-<table>
+  <div class="recherche-global">
+    <input class="search-bar" type="text" [formControl]="searchInput" placeholder="Cherche un personnage...">
 
-  <thead>
-    <tr>
-      <th>Perso</th>
-      <th>Genre</th>
-      <th>Affiliation</th>
-      <th>Fruit Du Demon</th>
-      <th>Haki</th>
-      <th>Prime</th>
-      <th>Hauteur</th>
-      <th>Origine</th>
-      <th>Premier Arc</th>
-    </tr>
-  </thead>
+    <ul class="liste-resultats" *ngIf="personnagesAffiches.length > 0">
+        <li *ngFor="let p of personnagesAffiches" (click)="selectionnerPersonnage(p)" class="perso-item">
+            <img [src]="urlImages + p.image" class="avatar-search-bar"/>
+            <span class="nom-perso">{{ p.nom }}</span>
+        </li>
+    </ul>
+  </div>
 
-  <tbody>
-    <tr *ngFor="let t of tentatives" class="ligne-perso">
-      <td>
-        <img [src]="urlImages + t.personnage.image"[alt]="t.personnage.nom" class="avatar"/>
-      </td>
-      <td [class.correct]="t.comparaison.genre === 'correct'" [class.incorrect]="t.comparaison.genre === 'incorrect'">
-        {{t.personnage.genre}}
-      </td>
-      <td [class.correct]="t.comparaison.affiliation === 'correct'" [class.incorrect]="t.comparaison.affiliation === 'incorrect'" >
-        {{t.personnage.affiliation}}
-      </td>
-      <td [class.correct]="t.comparaison.fruitDuDemon === 'correct'" [class.incorrect]="t.comparaison.fruitDuDemon === 'incorrect'">
-        {{t.personnage.fruitDuDemon}}<span *ngIf="t.personnage.fruitDuDemon == null">✖</span>
-      </td>
-      <td [class.correct]="t.comparaison.haki === 'correct'" [class.incorrect]="t.comparaison.haki === 'incorrect'" [class.partial]="t.comparaison.haki === 'partial'">
-        <span *ngIf="t.personnage.haki.includes('Royal')">👑</span><span *ngIf="t.personnage.haki.includes('Armement')">💪</span><span *ngIf="t.personnage.haki.includes('Observation')">👁️</span><span *ngIf="t.personnage.haki.length == 0">✖</span>
-      </td>
-      <td [class.correct]="t.comparaison.prime === 'correct'" [class.higher]="t.comparaison.prime === 'higher'" [class.lower]="t.comparaison.prime === 'lower'">
-        {{t.personnage.prime | formatNombre:'prime'}} B
-      </td>
-      <td [class.correct]="t.comparaison.hauteur === 'correct'" [class.higher]="t.comparaison.hauteur === 'higher'" [class.lower]="t.comparaison.hauteur === 'lower'">
-        {{t.personnage.hauteur| formatNombre:'hauteur'}}
-      </td>
-      <td [class.correct]="t.comparaison.origine === 'correct'" [class.incorrect]="t.comparaison.origine === 'incorrect'">
-        {{t.personnage.origine}}
-      </td>
-      <td [class.correct]="t.comparaison.premierArc === 'correct'" [class.higher]="t.comparaison.premierArc === 'later'" [class.lower]="t.comparaison.premierArc === 'earlier'">
-        {{t.personnage.premierArc}}
-      </td>
-    </tr>
-  </tbody>
+  <div class="mes-win" *ngIf="partieGagnee"><h3>Félicitations ! Tu as trouvé le personnage !</h3></div>
 
-</table>
+  <table>
 
+    <thead>
+      <tr>
+        <th>Perso</th>
+        <th>Genre</th>
+        <th>Affiliation</th>
+        <th>Fruit Du Demon</th>
+        <th>Haki</th>
+        <th>Prime</th>
+        <th>Hauteur</th>
+        <th>Origine</th>
+        <th>Premier Arc</th>
+      </tr>
+    </thead>
 
+    <tbody>
+      <tr *ngFor="let t of tentatives" class="ligne-perso">
+        <td>
+          <img [src]="urlImages + t.personnage.image"[alt]="t.personnage.nom" class="avatar"/>
+        </td>
+        <td [class.correct]="t.comparaison.genre === 'correct'" [class.incorrect]="t.comparaison.genre === 'incorrect'">
+          {{t.personnage.genre}}
+        </td>
+        <td [class.correct]="t.comparaison.affiliation === 'correct'" [class.incorrect]="t.comparaison.affiliation === 'incorrect'" >
+          {{t.personnage.affiliation}}
+        </td>
+        <td [class.correct]="t.comparaison.fruitDuDemon === 'correct'" [class.incorrect]="t.comparaison.fruitDuDemon === 'incorrect'">
+          {{t.personnage.fruitDuDemon}}<span *ngIf="t.personnage.fruitDuDemon == null">✖</span>
+        </td>
+        <td [class.correct]="t.comparaison.haki === 'correct'" [class.incorrect]="t.comparaison.haki === 'incorrect'" [class.partial]="t.comparaison.haki === 'partial'">
+          <span *ngIf="t.personnage.haki.includes('Royal')">👑</span><span *ngIf="t.personnage.haki.includes('Armement')">💪</span><span *ngIf="t.personnage.haki.includes('Observation')">👁️</span><span *ngIf="t.personnage.haki.length == 0">✖</span>
+        </td>
+        <td [class.correct]="t.comparaison.prime === 'correct'" [class.higher]="t.comparaison.prime === 'higher'" [class.lower]="t.comparaison.prime === 'lower'">
+          {{t.personnage.prime | formatNombre:'prime'}} B
+        </td>
+        <td [class.correct]="t.comparaison.hauteur === 'correct'" [class.higher]="t.comparaison.hauteur === 'higher'" [class.lower]="t.comparaison.hauteur === 'lower'">
+          {{t.personnage.hauteur| formatNombre:'hauteur'}}
+        </td>
+        <td [class.correct]="t.comparaison.origine === 'correct'" [class.incorrect]="t.comparaison.origine === 'incorrect'">
+          {{t.personnage.origine}}
+        </td>
+        <td [class.correct]="t.comparaison.premierArc === 'correct'" [class.higher]="t.comparaison.premierArc === 'later'" [class.lower]="t.comparaison.premierArc === 'earlier'">
+          {{t.personnage.premierArc}}
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

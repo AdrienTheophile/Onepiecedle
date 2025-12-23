@@ -16,8 +16,13 @@ import { ORDRE_ARCS } from './constants';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
+
 export class App implements OnInit {
   protected readonly title = signal('onepiecedle');
+
+  isLoading = true;
+  loadingMessage = "Chargement de l'API en cours ...";
+
   readonly urlImages = 'https://onepiecedle-api.onrender.com/images/';
 
   constructor(private personnageService: Personnage) {}
@@ -39,6 +44,7 @@ export class App implements OnInit {
       const index = Math.floor(Math.random() * data.length);
       this.solution = data[index];
       console.log('Solution : ', this.solution.nom);
+      this.isLoading = false;
     });
 
     this.searchInput.valueChanges.subscribe((saisie) => {
