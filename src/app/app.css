@@ -117,7 +117,7 @@ td {
   cursor: pointer;
 }
 
-.perso-item:hover {
+.perso-item:hover, .perso-hover {
   background-color: #f0f0f0;
 }
 
@@ -139,3 +139,4 @@ td {
   margin-top: 5%;
   gap: 0.25%;
 }
+

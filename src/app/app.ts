@@ -20,13 +20,15 @@ import { ORDRE_ARCS } from './constants';
 export class App implements OnInit {
   protected readonly title = signal('onepiecedle');
 
+  //barre de chargement
   isLoading = true;
-  loadingMessage = "Chargement de l'API en cours ...";
+  loadingMessage = "Chargement des personnages ...";
 
   readonly urlImages = 'https://onepiecedle-api.onrender.com/images/';
 
   constructor(private personnageService: Personnage) {}
 
+  //jeux avec les personnages
   personnages: PersonnageModel[] = [];
   personnagesAffiches: PersonnageModel[] = [];
 
@@ -37,14 +39,34 @@ export class App implements OnInit {
 
   public partieGagnee: boolean = false;
 
+  indexClavier = -1; //aucun élément
+
   ngOnInit(): void {
     this.personnageService.getPersonnages().subscribe((data) => {
       this.personnages = data;
 
-      const index = Math.floor(Math.random() * data.length);
-      this.solution = data[index];
-      console.log('Solution : ', this.solution.nom);
+      let save = localStorage.getItem('savegame')
+
+      if(save) {
+        let donnees = JSON.parse(save);
+        this.solution = donnees.solution;
+        this.tentatives = donnees.tentatives;
+        this.partieGagnee = donnees.partieGagnee;
+        if(donnees.partieGagnee){
+          this.searchInput.disable()
+        }
+        console.log('Solution : ', donnees.solution.nom);
+      }
+
+      else {
+        const index = Math.floor(Math.random() * data.length);
+        this.solution = data[index];
+        console.log('Solution : ', this.solution.nom);
+        this.sauvegarderPartie();
+      }
+
       this.isLoading = false;
+
     });
 
     this.searchInput.valueChanges.subscribe((saisie) => {
@@ -56,6 +78,7 @@ export class App implements OnInit {
           personnage.nom.toLowerCase().includes(filtrage)
         );
       }
+      this.indexClavier = -1;
     });
   }
 
@@ -75,6 +98,8 @@ export class App implements OnInit {
     this.searchInput.setValue('');
     const i = this.personnages.findIndex((p) => p.id === personnageChoisi.id);
     if (i > -1) this.personnages.splice(i, 1);
+
+    this.sauvegarderPartie();
   }
 
   private comparerPersonnages(personnageChoisi: PersonnageModel): ResultatsComparaison {
@@ -135,4 +160,59 @@ export class App implements OnInit {
 
     return resultats;
   }
+
+  public gererClavier(event: KeyboardEvent) {
+    console.log(this.indexClavier);
+    if(this.personnagesAffiches.length > 0){
+
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault(); // Empêche le curseur de bouger dans l'input (optionnel)
+          if (!(this.indexClavier == this.personnagesAffiches.length - 1)) {
+            this.indexClavier++;
+          }
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          if (this.indexClavier > 0) {
+            this.indexClavier--;
+          }
+          break;
+        case 'Enter':
+          event.preventDefault();
+          if (this.indexClavier >= 0) {
+            let perso = this.personnagesAffiches[this.indexClavier];
+            this.selectionnerPersonnage(perso);
+            console.log(perso.nom);
+          }
+          break;
+      }
+
+    }
+  }
+
+  public sauvegarderPartie(){
+    const donnees = { solution : this.solution, tentatives: this.tentatives, partieGagnee: this.partieGagnee}
+    localStorage.setItem('savegame', JSON.stringify(donnees))
+  }
+
+  public relancerPartie() {
+    localStorage.removeItem('savegame');
+
+    this.tentatives = [];
+    this.partieGagnee = false;
+    this.indexClavier = -1;
+    this.searchInput.enable();
+
+    //nouveau personnage au hasard
+    if (this.personnages.length > 0) {
+      const index = Math.floor(Math.random() * this.personnages.length);
+      this.solution = this.personnages[index];
+      console.log('Nouvelle Solution : ', this.solution.nom);
+
+      this.sauvegarderPartie();
+    }
+
+  }
+
 }

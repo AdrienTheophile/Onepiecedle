@@ -1,4 +1,4 @@
-<img src="./assets/images/title.png" alt="Title OnePIeceDle2.0" class="img-title">
+<img src="./assets/images/title.png" alt="Title OnePIeceDle2.0" (click)="relancerPartie()" class="img-title">
 
 <div class="d-flex justify-content-center loading-bar" *ngIf="isLoading">
   <div class="spinner-grow text-primary" role="status"></div>
@@ -16,10 +16,10 @@
 <div *ngIf="!isLoading">
 
   <div class="recherche-global">
-    <input class="search-bar" type="text" [formControl]="searchInput" placeholder="Cherche un personnage...">
+    <input class="search-bar" type="text" (keydown)="gererClavier($event)" [formControl]="searchInput" placeholder="Cherche un personnage...">
 
     <ul class="liste-resultats" *ngIf="personnagesAffiches.length > 0">
-        <li *ngFor="let p of personnagesAffiches" (click)="selectionnerPersonnage(p)" class="perso-item">
+        <li *ngFor="let p of personnagesAffiches; let i = index" (click)="selectionnerPersonnage(p)" class="perso-item" [class.perso-hover]="i == indexClavier">
             <img [src]="urlImages + p.image" class="avatar-search-bar"/>
             <span class="nom-perso">{{ p.nom }}</span>
         </li>
@@ -77,5 +77,11 @@
     </tbody>
 
   </table>
+
+  <div class="fixed-bottom text-center mb-3">
+    <small class="text-white fst-italic" style="letter-spacing: 1px;">
+      ( Cliquez sur le logo pour relancer )
+    </small>
+  </div>
 
 </div>
